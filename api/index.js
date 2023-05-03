@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import authRouter from './routes/auth.js'
 import usersRouter from './routes/users.js'
-import hotelsRouter from './routes/hootels.js'
+import hotelsRouter from './routes/hotels.js'
 import roomsRouter from './routes/rooms.js'
 
 const app = express()
