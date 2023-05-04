@@ -1,7 +1,6 @@
-import mongoose, { mongo } from 'mongoose'
-const {Schema}=mongoose;
+import mongoose from 'mongoose'
 
-const HotelSchema= new Schema({
+const HotelSchema= new mongoose.Schema({
     name:{
         type:String,
         require:true
@@ -20,6 +19,10 @@ const HotelSchema= new Schema({
     },
     distance:{
         type:[String],
+        require:true
+    },
+    title:{
+        type:String,
         require:true
     },
     discription:{

@@ -25,13 +25,14 @@ mongoose.connection.on('disconnected',()=>{
 mongoose.connection.on('connected',()=>{
     console.log("MongoDB connected")
 })
-
+// 
+app.use(express.json())
 // register the auth middleware 
 app.use('/auth',authRouter)
 
 app.use('/api/users',usersRouter)
-app.use('/auth/hotels',hotelsRouter)
-app.use('/auth/rooms',roomsRouter)
+app.use('/hotels',hotelsRouter)
+app.use('/rooms',roomsRouter)
 
 
 app.get('/',(req,res)=>{
