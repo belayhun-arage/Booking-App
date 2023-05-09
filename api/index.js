@@ -27,16 +27,28 @@ mongoose.connection.on('connected',()=>{
 })
 // 
 app.use(express.json())
+
 // register the auth middleware 
 app.use('/auth',authRouter)
 
 app.use('/api/users',usersRouter)
-app.use('/hotels',hotelsRouter)
-app.use('/rooms',roomsRouter)
-
+app.use('/api/hotels',hotelsRouter)
+app.use('/api/rooms',roomsRouter)
 
 app.get('/',(req,res)=>{
     res.send("Hello for the first request");
+})
+
+// ERROR HANDLER MIDDLEWARE
+app.use((err,req,res,next)=>{
+    const errorStatus = err.status || 500
+    const errorMessage = err.message || "Some thing went wrong"
+    return res.status(errorStatus).json({
+        success:false,
+        message:errorMessage,
+        status:errorStatus,
+        stack:err.stack
+    })
 })
 
 app.listen('8000',()=>{
