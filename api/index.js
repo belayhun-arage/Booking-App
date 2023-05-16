@@ -5,7 +5,7 @@ import authRouter from './routes/auth.js'
 import usersRouter from './routes/users.js'
 import hotelsRouter from './routes/hotels.js'
 import roomsRouter from './routes/rooms.js'
-
+import cookieParser from 'cookie-parser'
 const app = express()
 dotenv.config()
 
@@ -25,7 +25,8 @@ mongoose.connection.on('disconnected',()=>{
 mongoose.connection.on('connected',()=>{
     console.log("MongoDB connected")
 })
-// 
+//REGISTER MIDDLEWARES
+app.use(cookieParser())
 app.use(express.json())
 
 // register the auth middleware 
