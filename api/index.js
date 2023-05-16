@@ -29,8 +29,7 @@ mongoose.connection.on('connected',()=>{
 app.use(express.json())
 
 // register the auth middleware 
-app.use('/auth',authRouter)
-
+app.use('/api/auth',authRouter)
 app.use('/api/users',usersRouter)
 app.use('/api/hotels',hotelsRouter)
 app.use('/api/rooms',roomsRouter)

@@ -1,12 +1,28 @@
-import mongoose, { mongo } from "mongoose";
-const {Schema}=mongoose.Schema();
-const userSchema = new Schema({
-    firstName: String,
-    lastName: String,
-    email: String,
-    password: String,
-    permissionLevel: Number
- });
+import mongoose from "mongoose";
+const userSchema = new mongoose.Schema({
+    username: {
+        type:String,
+        required:true,
+        unique:true
+    },
+    email: {
+        type:String,
+        required:true,
+        unique:true
+    },
+    password: {
+        type:String,
+        required:true,
+        unique:true
+    },
+    isAdmin: {
+        type:Boolean,
+        default:false
+    }
+},
+{
+    timestamps:true
+});
 
 //  atache the schema to the user model
-const userModel = mongoose.model('Users', userSchema);
+export default mongoose.model('User', userSchema);
