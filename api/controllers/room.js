@@ -1,0 +1,60 @@
+import Hotel from "../models/Hotel.js"
+import Room from "../models/Rooms.js"
+
+export const createRoom= async (req,res,next)=>{
+    const hotel=req.params.id
+    const newRoom= new Room(req.body)
+    try {
+        const savedRoom = await newRoom.save()
+        if(savedRoom){
+            try {
+                await Hotel.findByIdAndUpdate(hotel,{
+                    $addToSet:{rooms:savedRoom._id}})
+            } catch (error) {
+                next(error)
+            }
+            res.status(200).json(savedRoom)
+        }
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const getRooms= async (req,res)=>{
+    try {
+        const rooms = await Room.find()
+        res.status(200).json(rooms)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+export const getRoom= async (req,res)=>{
+    try {
+        const rooms = await Room.findById(req.params.id)
+        res.status(200).json(rooms)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+export const updateRoom= async (req,res)=>{
+    try {
+        const updatedRoom = Room.findOneAndUpdate(
+            req.params.id,
+            {$set:req.body},
+            {new:true})
+        res.status(200).json(updatedRoom)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+export const deleteRoom= async (req,res)=>{
+    try {
+        const rooms = Room.findOneAndDelete(req.params.id)
+        res.status(200).json(rooms)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}

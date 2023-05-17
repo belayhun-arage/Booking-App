@@ -1,43 +1,25 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import mongoose from 'mongoose'
+import cookieParser from 'cookie-parser'
+import { connectToMongoDB } from './utils/mongoDBconnection.js'
 import authRouter from './routes/auth.js'
 import usersRouter from './routes/users.js'
 import hotelsRouter from './routes/hotels.js'
 import roomsRouter from './routes/rooms.js'
-import cookieParser from 'cookie-parser'
+
+// instantiate express
 const app = express()
 dotenv.config()
 
-const connect=async ()=>{
-    try {
-        await mongoose.connect(process.env.MONGODB_URI)
-     } catch (error) {
-        throw error 
-     }
-}
-
-// mongoose events
-mongoose.connection.on('disconnected',()=>{
-    console.log("MongoDB Disconnected!")
-})
-
-mongoose.connection.on('connected',()=>{
-    console.log("MongoDB connected")
-})
 //REGISTER MIDDLEWARES
 app.use(cookieParser())
 app.use(express.json())
 
-// register the auth middleware 
+// register end points 
 app.use('/api/auth',authRouter)
 app.use('/api/users',usersRouter)
 app.use('/api/hotels',hotelsRouter)
 app.use('/api/rooms',roomsRouter)
-
-app.get('/',(req,res)=>{
-    res.send("Hello for the first request");
-})
 
 // ERROR HANDLER MIDDLEWARE
 app.use((err,req,res,next)=>{
@@ -51,7 +33,4 @@ app.use((err,req,res,next)=>{
     })
 })
 
-app.listen('8000',()=>{
-    connect()
-    console.log("Serving ")
-})
+app.listen(process.env.PORT,()=>connectToMongoDB())

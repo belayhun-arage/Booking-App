@@ -1,4 +1,6 @@
 import Hotel from "../models/Hotel.js"
+import { ObjectId } from "mongoose"
+
 export const createHotel= async (req,res)=>{
     const newHotel= new Hotel(req.body)
     try {
