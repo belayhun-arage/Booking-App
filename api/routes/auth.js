@@ -4,8 +4,8 @@ import { verifyToken } from "../utils/verifyToken.js";
 const router = Express.Router()
 
 
-router.get('/auth',verifyToken,(req,res,next)=>{
-    res.send(200).json({message:"Token Verified"})
+router.get('/verify',verifyToken,(req,res,next)=>{
+    res.send("Token Verified")
 })
 router.post('/authUser',login)   
 
