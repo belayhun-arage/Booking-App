@@ -10,7 +10,7 @@ router.get("/:id",getRoom)
 
 router.post('/:id',createRoom)
 
-router.put("/:id",verifyAdmin,updateRoom)
+router.patch("/:id",updateRoom)
 
 router.delete("/:id",verifyAdmin,deleteRoom)
 

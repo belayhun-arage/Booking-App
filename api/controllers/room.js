@@ -2,14 +2,15 @@ import Hotel from "../models/Hotel.js"
 import Room from "../models/Rooms.js"
 
 export const createRoom= async (req,res,next)=>{
-    const hotel=req.params.id
+    const hotelID=req.params.id
     const newRoom= new Room(req.body)
     try {
         const savedRoom = await newRoom.save()
         if(savedRoom){
             try {
-                await Hotel.findByIdAndUpdate(hotel,{
-                    $addToSet:{rooms:savedRoom._id}})
+                await Hotel.findByIdAndUpdate(
+                    hotelID,
+                    {$addToSet:{rooms:savedRoom._id}})
             } catch (error) {
                 next(error)
             }
@@ -38,21 +39,28 @@ export const getRoom= async (req,res)=>{
     }
 }
 
-export const updateRoom= async (req,res)=>{
+export const updateRoom= async (req,res,next)=>{
     try {
-        const updatedRoom = Room.findOneAndUpdate(
+        const updatedRoom = await Room.findByIdAndUpdate(
             req.params.id,
             {$set:req.body},
             {new:true})
         res.status(200).json(updatedRoom)
     } catch (error) {
-        res.status(500).json(error)
+        next(error)
     }
 }
 
 export const deleteRoom= async (req,res)=>{
     try {
-        const rooms = Room.findOneAndDelete(req.params.id)
+        await Room.findByIdAndDelete(req.params.id)
+        try {
+            await Hotel.findByIdAndUpdate(
+                req.params.hotelID,
+                {$pull:{rooms:req.params.id}})
+        } catch (error) {
+            
+        }
         res.status(200).json(rooms)
     } catch (error) {
         res.status(500).json(error)

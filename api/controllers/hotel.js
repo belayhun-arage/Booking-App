@@ -31,7 +31,10 @@ export const getHotelById=async (req,res)=>{
 
 export const updateHotel=async (req,res)=>{
     try {
-        const hotel= await Hotel.findByIdAndUpdate(req.params.id);
+        const hotel= await Hotel.findByIdAndUpdate(
+            req.params.id,
+            {$set:req.body},
+            {new:true});
         res.send({data:hotel})   
     } catch (error) {
         const status=error.status || 500
