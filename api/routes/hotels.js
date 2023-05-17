@@ -1,17 +1,16 @@
 import Express from "express";
-import Hotel from "../models/Hotel.js"
-import createError from "../utils/error.js"
 import { createHotel,getHotels,getHotelById,updateHotel,deleteHotel } from "../controllers/hotel.js";
+import { verifyAdmin } from "../utils/verifyAdmin.js";
 const router = Express.Router()
-
-router.post('/',createHotel)
 
 router.get('/',getHotels)
 
 router.get("/:id",getHotelById)
 
-router.put(":id",updateHotel)
+router.post('/',verifyAdmin,createHotel)
 
-router.delete(":id",deleteHotel)
+router.put(":id",verifyAdmin,updateHotel)
+
+router.delete(":id",verifyAdmin,deleteHotel)
 
 export default router;

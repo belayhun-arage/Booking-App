@@ -15,9 +15,39 @@ export const register=async (req,res,next)=>{
     }
 }
 
+export const getUser=async (req,res,next)=>{
+    try {
+        const users = await User.findById(req.params.id);
+        if(!users) return next(createError(404,"Users Not Found"))
+        res.status(201).json({Users:users})
+    } catch (error) {
+        next(error)
+    }
+}
+
 export const getAllUsers=async (req,res,next)=>{
     try {
         const users = await User.find();
+        if(!users) return next(createError(404,"Users Not Found"))
+        res.status(201).json({Users:users})
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const updateUser=async (req,res,next)=>{
+    try {
+        const users = await User.findOneAndUpdate(req.params.id);
+        if(!users) return next(createError(404,"Users Not Found"))
+        res.status(201).json({Users:users})
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const deleteUser=async (req,res,next)=>{
+    try {
+        const users = await User.findOneAndDelete(req.params.id);
         if(!users) return next(createError(404,"Users Not Found"))
         res.status(201).json({Users:users})
     } catch (error) {
