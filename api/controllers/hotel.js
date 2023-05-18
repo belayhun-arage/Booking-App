@@ -1,5 +1,4 @@
 import Hotel from "../models/Hotel.js"
-import { ObjectId } from "mongoose"
 
 export const createHotel= async (req,res)=>{
     const newHotel= new Hotel(req.body)
@@ -51,5 +50,17 @@ export const deleteHotel=async (req,res)=>{
         const status=error.status || 500
         const message=error.message || "Something Went Wrong!"
         next(createError(status, message))
+    }
+}
+
+export const countByCity=async (req,res)=>{
+    const cities=req.params.cities.split(",")
+    try {
+        const list= await Promise.all(cities.map(city=>{
+            return city.countDocument({city:city})
+        }));
+        res.status(200).json(list)   
+    } catch (error) {
+        res.status(500).json(error)
     }
 }

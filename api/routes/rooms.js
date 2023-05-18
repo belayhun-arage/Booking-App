@@ -10,8 +10,8 @@ router.get("/:id",getRoom)
 
 router.post('/:id',createRoom)
 
-router.patch("/:id",updateRoom)
+router.put("/:id",updateRoom)
 
-router.delete("/:id",verifyAdmin,deleteRoom)
+router.delete("/:roomID/:hotelID",deleteRoom)
 
 export default router;
