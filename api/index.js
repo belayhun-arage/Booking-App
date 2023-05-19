@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
 import { connectToMongoDB } from './utils/mongoDBconnection.js'
 import authRouter from './routes/auth.js'
 import usersRouter from './routes/users.js'
@@ -12,6 +13,7 @@ const app = express()
 dotenv.config()
 
 //REGISTER MIDDLEWARES
+app.use(cors())
 app.use(cookieParser())
 app.use(express.json())
 
